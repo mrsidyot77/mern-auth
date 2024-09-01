@@ -13,6 +13,7 @@ function Profile() {
   const { currentUser, loading } = useSelector((state) => state.user);
   const fileRef = useRef(null);
   const dispatch = useDispatch();
+  const [successMessage, setSuccessMessage]= useState("")
 
   console.log(image);
 
@@ -35,8 +36,9 @@ function Profile() {
             },
           }
         );
-        console.log("avatar updated", res.data);
-        dispatch(updateAvatarSuccess({ avatar: res.data.data.avatar }));
+        
+         dispatch(updateAvatarSuccess({ avatar: res.data.data.avatar }));
+         setSuccessMessage("Avatar updated Successfully.")
       } catch (error) {
         console.log("Error while updating avatar.", error);
         dispatch(updateAvatarFailure(error.message));
@@ -67,6 +69,12 @@ function Profile() {
             onClick={() => fileRef.current.click()} //current triggers fileRef
           />
         </div>
+        
+       {successMessage && (
+        <p className="text-green-500 text-center">
+          {successMessage}
+        </p>
+       )}
         <input
           type="text"
           placeholder="Full Name"
