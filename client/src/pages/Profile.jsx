@@ -5,17 +5,30 @@ import {
   updateAvatarStart,
   updateAvatarSuccess,
   updateAvatarFailure,
-  
 } from "../redux/userSlice.js";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 function Profile() {
+  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [image, setImage] = useState(null);
   const { currentUser, loading } = useSelector((state) => state.user);
   const fileRef = useRef(null);
   const dispatch = useDispatch();
-  const [successMessage, setSuccessMessage]= useState("")
+  const [successMessage, setSuccessMessage] = useState("");
+  const [succDataMsg, setSuccDataMsg] = useState("")
 
-  console.log(image);
+  useEffect(() => {
+    if (currentUser) {
+      setFullName(currentUser.data.user.fullName);
+      setUsername(currentUser.data.user.username);
+      setEmail(currentUser.data.user.email);
+    }
+  }, [currentUser]);
+
+  
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
@@ -36,9 +49,9 @@ function Profile() {
             },
           }
         );
-        
-         dispatch(updateAvatarSuccess({ avatar: res.data.data.avatar }));
-         setSuccessMessage("Avatar updated Successfully.")
+
+        dispatch(updateAvatarSuccess({ avatar: res.data.data.avatar }));
+        setSuccessMessage("Avatar updated Successfully.");
       } catch (error) {
         console.log("Error while updating avatar.", error);
         dispatch(updateAvatarFailure(error.message));
@@ -46,10 +59,36 @@ function Profile() {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/v1/users/update-account-details",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${currentUser.data.accessToken}`
+          },
+
+          body: JSON.stringify({ fullName, username, email }), // Pass the data correctly
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to update account details.");
+      }
+
+      const data = await res.json();
+      setSuccDataMsg("Account details updated Successfully.")
+    } catch (error) {
+      console.log("Error while updating account details", error);
+    }
+  };
   return (
     <div className="mx-auto max-w-lg p-3">
       <h1 className="text-center font-semibold text-3xl my-7">Profile</h1>
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <input
           type="file"
           ref={fileRef}
@@ -69,18 +108,17 @@ function Profile() {
             onClick={() => fileRef.current.click()} //current triggers fileRef
           />
         </div>
-        
-       {successMessage && (
-        <p className="text-green-500 text-center">
-          {successMessage}
-        </p>
-       )}
+
+        {successMessage && (
+          <p className="text-green-500 text-center">{successMessage}</p>
+        )}
         <input
           type="text"
           placeholder="Full Name"
           defaultValue={currentUser.data.user.fullName}
           className="bg-slate-300 rounded-lg p-2"
           id="fullname"
+          onChange={(e) => setFullName(e.target.value)}
         />
         <input
           type="text"
@@ -88,6 +126,7 @@ function Profile() {
           defaultValue={currentUser.data.user.username}
           className="bg-slate-300 rounded-lg p-2"
           id="username"
+          onChange={(e) => setUsername(e.target.value)}
         />
         <input
           type="email"
@@ -95,23 +134,27 @@ function Profile() {
           defaultValue={currentUser.data.user.email}
           className="bg-slate-300 rounded-lg p-2"
           id="email"
+          onChange={(e) => setEmail(e.target.value)}
         />
-        <input
-          type="password"
-          placeholder="Password"
-          className="bg-slate-300 rounded-lg p-2"
-          id="password"
-        />
+
         <button className="bg-slate-700 uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60">
           update
         </button>
+        {succDataMsg && (
+          <p className="text-green-500 text-center">{succDataMsg}</p>
+        )}
       </form>
-      <div className="flex justify-between  m-5">
+
+      <div className="flex justify-between  m-4">
         <span className="text-red-400  cursor-pointer bg-slate-700 p-2 rounded-lg ">
           Delete Account
         </span>
         <span className="text-red-400  cursor-pointer bg-slate-700 p-2 rounded-lg">
           Sign Out
+        </span>
+
+        <span className="text-red-400  cursor-pointer bg-slate-700 p-2  rounded-lg ">
+        <Link to="/change-password">  Change Password</Link>
         </span>
       </div>
     </div>

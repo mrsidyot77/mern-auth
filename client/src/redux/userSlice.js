@@ -25,7 +25,7 @@ const userSlice = createSlice({
         },
         updateAvatarStart:(state,action)=>{
             state.loading = true,
-            state.error = false
+            state.error = null
         },
         updateAvatarSuccess: (state,action)=>{
             state.loading = false
@@ -37,10 +37,23 @@ const userSlice = createSlice({
             state.loading = false
             state.error = action.payload
             
-        }    
+        },
+        updatePasswordStart: (state,action)=>{
+            state.loading = true,
+            state.error = null
+        },
+        updatePasswordSuccess:   (state,action)=>{
+            state.loading = false
+            state.error = null
+        },
+        updatePasswordFailure: (state,action)=>{
+            state.loading = false
+            state.error = action.payload
+            
+        },
     }
 })
 
-export const {signInStart, signInSuccess, signInFailure, updateAvatarSuccess, updateAvatarFailure, updateAvatarStart} = userSlice.actions
+export const {signInStart, signInSuccess, signInFailure, updateAvatarSuccess, updateAvatarFailure, updateAvatarStart, updatePasswordStart,updatePasswordSuccess,updatePasswordFailure} = userSlice.actions
 
 export default userSlice.reducer

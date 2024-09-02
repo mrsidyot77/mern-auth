@@ -260,7 +260,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 const changePassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword, conPassword } = req.body;
 
-  if (!newPassword === conPassword) {
+  if (newPassword !== conPassword) {
     throw new ApiError(400, "New password and Confirm password must be same.");
   }
 
@@ -289,12 +289,12 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 const updateAccountDetails = asyncHandler(async (req, res) => {
   const { fullName, email, username } = req.body;
 
-  if (!email && !fullName && !email) {
+  if (!fullName && !email && !username) {
     throw new ApiError(401, "Email full name or username are required.");
   }
 
   const user = await User.findByIdAndUpdate(
-    req.user?.body,
+    req.user?._id,
     {
       $set: {
         fullName,
