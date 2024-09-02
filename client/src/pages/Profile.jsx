@@ -5,6 +5,7 @@ import {
   updateAvatarStart,
   updateAvatarSuccess,
   updateAvatarFailure,
+  signOut
 } from "../redux/userSlice.js";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
@@ -85,6 +86,15 @@ function Profile() {
       console.log("Error while updating account details", error);
     }
   };
+  const handleSignOut = async()=>{
+    try{
+    await fetch("http://localhost:5000/api/v1/users/logout")
+    dispatch(signOut())
+  }catch(error){
+    console.log(error);
+    
+  }
+  }
   return (
     <div className="mx-auto max-w-lg p-3">
       <h1 className="text-center font-semibold text-3xl my-7">Profile</h1>
@@ -149,7 +159,7 @@ function Profile() {
         <span className="text-red-400  cursor-pointer bg-slate-700 p-2 rounded-lg ">
           Delete Account
         </span>
-        <span className="text-red-400  cursor-pointer bg-slate-700 p-2 rounded-lg">
+        <span onClick={handleSignOut} className="text-red-400  cursor-pointer bg-slate-700 p-2 rounded-lg">
           Sign Out
         </span>
 
