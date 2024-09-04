@@ -20,10 +20,10 @@ function Header() {
 
 
   return (
-    <div className="bg-slate-950">
+    <div className="bg-gray-950">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
-          <h1 className="font-bold text-gray-500  text-3xl">AuthSys</h1>{" "}
+          <h1 className="font-bold text-gray-500  text-3xl">MERN-AuthSys</h1>{" "}
         </Link>
         <ul className="flex gap-4">
           <Link to="/">

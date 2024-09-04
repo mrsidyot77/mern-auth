@@ -32,7 +32,7 @@ function Home() {
           />
           <button
             onClick={handleSignOut}
-            className="bg-slate-700 uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60"
+            className=" bg-sky-950  uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60"
           >
             Signout
           </button>
@@ -42,13 +42,13 @@ function Home() {
           <h2 className="text-2xl font-semibold mb-4">You are not logged in.</h2>
           <Link
             to="/sign-in"
-            className="mx-2 bg-slate-700 uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60"
+            className="mx-2 bg-sky-950 uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60"
           >
             sign in
           </Link>
           <Link
             to="/sign-up"
-           className="bg-slate-700 uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60"
+           className=" bg-sky-950  uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60"
           >
             signup
           </Link>

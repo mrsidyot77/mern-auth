@@ -65,7 +65,7 @@ function SignIn() {
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-4xl my-3 font-semibold text-center">Sign In</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4 bg-gray-800 p-6 rounded-lg">
         
         <input
           type="text"
@@ -81,7 +81,7 @@ function SignIn() {
           className="rounded-xl p-3 bg-slate-200 placeholder-gray-500"
           onChange={handleChange}
         />
-        <button disabled={loading} className="rounded-lg bg-slate-700 py-3 uppercase hover:opacity-90 text-white disabled:opacity-90">
+        <button disabled={loading} className="rounded-lg bg-slate-600  py-3 uppercase hover:opacity-90 text-white disabled:opacity-90">
          {loading ? "Loading..." : "Sign In" }
         </button>
         <OAuth/>
@@ -89,7 +89,7 @@ function SignIn() {
       <div className="flex gap-2 my-3">
         <p >Don't have an Account?</p>
         <Link to="/sign-up">
-          <span className="text-blue-400">Sign Up</span>
+          <span className="text-cyan-300">Sign Up</span>
         </Link>
       </div>
       

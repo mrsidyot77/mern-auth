@@ -60,7 +60,7 @@ function SignUp() {
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-4xl my-3 font-semibold text-center">Sign Up</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
+      <form  onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4 bg-gray-800 p-6 rounded-lg">
         <input
           type="text"
           id="fullName"
@@ -89,7 +89,7 @@ function SignUp() {
           className="rounded-xl p-3 bg-slate-200 placeholder-gray-500"
           onChange={handleChange}
         />
-        <button disabled={loading} className="rounded-lg bg-slate-700 py-3 uppercase hover:opacity-90 text-white disabled:opacity-90">
+        <button disabled={loading} className="rounded-lg  bg-slate-600  py-3 uppercase hover:opacity-60 text-white disabled:opacity-60">
          {loading ? "Loading..." : "Sign Up" }
         </button>
         <OAuth/>
@@ -97,7 +97,7 @@ function SignUp() {
       <div className="flex gap-2 my-3">
         <p >Have an Account?</p>
         <Link to="/sign-in">
-          <span className="text-blue-400">Sign In</span>
+          <span className="text-blue-300">Sign In</span>
         </Link>
       </div>
       <p className="text-green-400">{dataReg && "You are registered successfully, Now you can Sign in."}</p>
