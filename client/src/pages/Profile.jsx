@@ -5,7 +5,10 @@ import {
   updateAvatarStart,
   updateAvatarSuccess,
   updateAvatarFailure,
-  signOut
+  signOut,
+  updateAccountStart,
+  updateAccountSuccess,
+  updateAccountFailure,
 } from "../redux/userSlice.js";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
@@ -15,11 +18,11 @@ function Profile() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [image, setImage] = useState(null);
-  const { currentUser, loading } = useSelector((state) => state.user);
+  const { currentUser, loading, error } = useSelector((state) => state.user);
   const fileRef = useRef(null);
   const dispatch = useDispatch();
   const [successMessage, setSuccessMessage] = useState("");
-  const [succDataMsg, setSuccDataMsg] = useState("")
+  const [succDataMsg, setSuccDataMsg] = useState("");
 
   useEffect(() => {
     if (currentUser) {
@@ -29,7 +32,11 @@ function Profile() {
     }
   }, [currentUser]);
 
-  
+  const clearMessages = () => {
+    setSuccessMessage("");
+    setSuccDataMsg("");
+  };
+
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
@@ -62,6 +69,7 @@ function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(updateAccountStart());
     try {
       const res = await fetch(
         "http://localhost:5000/api/v1/users/update-account-details",
@@ -69,7 +77,7 @@ function Profile() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${currentUser.data.accessToken}`
+            Authorization: `Bearer ${currentUser.data.accessToken}`,
           },
 
           body: JSON.stringify({ fullName, username, email }), // Pass the data correctly
@@ -81,20 +89,22 @@ function Profile() {
       }
 
       const data = await res.json();
-      setSuccDataMsg("Account details updated Successfully.")
+
+      dispatch(updateAccountSuccess());
+      setSuccDataMsg(data.message);
     } catch (error) {
-      console.log("Error while updating account details", error);
+      dispatch(updateAccountFailure(error));
     }
   };
-  const handleSignOut = async()=>{
-    try{
-    await fetch("http://localhost:5000/api/v1/users/logout")
-    dispatch(signOut())
-  }catch(error){
-    console.log(error);
-    
-  }
-  }
+
+  const handleSignOut = async () => {
+    try {
+      await fetch("http://localhost:5000/api/v1/users/logout");
+      dispatch(signOut());
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="mx-auto max-w-lg p-3">
       <h1 className="text-center font-semibold text-3xl my-7">Profile</h1>
@@ -129,6 +139,7 @@ function Profile() {
           className="bg-slate-300 rounded-lg p-2"
           id="fullname"
           onChange={(e) => setFullName(e.target.value)}
+          onFocus={clearMessages}
         />
         <input
           type="text"
@@ -137,6 +148,7 @@ function Profile() {
           className="bg-slate-300 rounded-lg p-2"
           id="username"
           onChange={(e) => setUsername(e.target.value)}
+          onFocus={clearMessages}
         />
         <input
           type="email"
@@ -145,11 +157,17 @@ function Profile() {
           className="bg-slate-300 rounded-lg p-2"
           id="email"
           onChange={(e) => setEmail(e.target.value)}
+          onFocus={clearMessages}
         />
 
         <button className="bg-slate-700 uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60">
-          update
+          {loading ? "Updating..." : "Update"}
         </button>
+        {error && (
+          <p className="text-red-500 text-center">
+            {error && "Something went wrong."}
+          </p>
+        )}
         {succDataMsg && (
           <p className="text-green-500 text-center">{succDataMsg}</p>
         )}
@@ -159,12 +177,15 @@ function Profile() {
         <span className="text-red-400  cursor-pointer bg-slate-700 p-2 rounded-lg ">
           Delete Account
         </span>
-        <span onClick={handleSignOut} className="text-red-400  cursor-pointer bg-slate-700 p-2 rounded-lg">
+        <span
+          onClick={handleSignOut}
+          className="text-red-400  cursor-pointer bg-slate-700 p-2 rounded-lg"
+        >
           Sign Out
         </span>
 
         <span className="text-red-400  cursor-pointer bg-slate-700 p-2  rounded-lg ">
-        <Link to="/change-password">  Change Password</Link>
+          <Link to="/change-password"> Change Password</Link>
         </span>
       </div>
     </div>

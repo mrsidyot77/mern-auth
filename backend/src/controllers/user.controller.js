@@ -313,7 +313,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
       new ApiResponse(
         200,
         user,
-        "Account details of the user changed successfylly."
+        "Account details of the user has been changed successfully."
       )
     );
 }); //done

@@ -1,9 +1,23 @@
-import { Link } from "react-router-dom";
-import {useSelector} from "react-redux"
+import { Link,useNavigate } from "react-router-dom";
+
+import { useDispatch, useSelector } from "react-redux";
+import { signOut } from "../redux/userSlice";
 
 function Header() {
   const {currentUser} = useSelector((state) => state.user)
-  
+  const dispatch = useDispatch(); // Get the dispatch function from Redux
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      await fetch("http://localhost:5000/api/v1/users/logout");
+      dispatch(signOut());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   return (
     <div className="bg-slate-950">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
@@ -19,13 +33,28 @@ function Header() {
             {" "}
             <li className="font-bold mt-1 text-gray-500">About</li>{" "}
           </Link>
+          {currentUser ? (
+          <>
+              <li
+          onClick={handleSignOut}
+          className="font-bold mt-1 text-gray-500 cursor-pointer"
+        >
+          SignOut
+        </li>
           <Link to="/profile">
             {" "}
-            {currentUser ? (<img className="w-8 h-8 object-cover rounded-full "  src={currentUser.data.user.avatar}/>):(<li className="font-bold mt-1 text-gray-500">Sign In </li>)}
+            
+              
+              <img className="w-8 h-8 object-cover rounded-full "  src={currentUser.data.user.avatar}/>
+              </Link>
+        </>
+              ):(
+                <Link to="/sign-in" >
+                <li className="font-bold mt-1 text-gray-500">Sign In </li></Link>)}
            
             
-          </Link>
           
+         
         </ul>
       </div>
     </div>
