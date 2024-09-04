@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../redux/userSlice";
 
 function Header() {
+  
   const {currentUser} = useSelector((state) => state.user)
   const dispatch = useDispatch(); // Get the dispatch function from Redux
   const navigate = useNavigate();
