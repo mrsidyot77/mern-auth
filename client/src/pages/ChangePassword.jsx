@@ -10,14 +10,19 @@ function ChangePassword() {
   const [conPassword,setConPassword] = useState("")
   const [successMessage,setSuccessMessage] = useState("")
   const [loading,setLoading] = useState(false)
-  const [error,setError] = useState(false)
+  const [error,setError] = useState("")
   
   const handleSubmit = async (e) => {
     
     e.preventDefault();
+    if (newPassword !== conPassword) {
+      setError("New Password and Confirm Password do not match.");
+      return;
+    }
     try {
         setLoading(true)
-        setError(false)
+        setError("")
+        setSuccessMessage("");
       const res = await fetch(
         "http://localhost:5000/api/v1/users/change-password",
         {
@@ -29,22 +34,30 @@ function ChangePassword() {
           body: JSON.stringify({ oldPassword, newPassword, conPassword }),
         }
       );
-   
+      console.log(res);
+      
    
       if (!res.ok) {
-        setLoading(false)
-        setError(true)
-        throw new Error("Failed to change password",error);
+        const errorMessage = data.message || "Failed to change password.";
+      setError(errorMessage);
+      return;
       }
       setLoading(false)
-      setError(false)
+      setError("")
       setSuccessMessage("Password has been changed successfully.")
     } catch (error) {
         setLoading(false)
-        setError(true)
-      console.log("Something went wrong while changing password", error);
+        setError("Your current password is incorrect.")
+      console.log( "Something went wrong while changing password",error);
     }
   };
+
+  const clearMessages = () => {
+    setError("");
+    setSuccessMessage("");
+  };
+
+  
   return (
     <div className="mx-auto max-w-lg p-3">
       <h1 className="text-center font-semibold text-3xl my-7">
@@ -57,6 +70,7 @@ function ChangePassword() {
           className="bg-slate-300 rounded-lg p-2"
           id="oldpassword"
           onChange={(e)=>setOldPassword(e.target.value)}
+          onFocus={clearMessages}
 
         />
         <input
@@ -65,6 +79,7 @@ function ChangePassword() {
           className="bg-slate-300 rounded-lg p-2"
           id="newpassword"
           onChange={(e)=>setNewPassword(e.target.value)}
+          onFocus={clearMessages}
         />
         <input
           type="password"
@@ -72,6 +87,7 @@ function ChangePassword() {
           className="bg-slate-300 rounded-lg p-2"
           id="cpassword"
           onChange={(e)=>setConPassword(e.target.value)}
+          onFocus={clearMessages}
         />
         <button disabled={loading} className="bg-slate-700  uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60">
         {loading ? "Loading..." : "change password"}
@@ -80,7 +96,9 @@ function ChangePassword() {
           <p className="text-green-500 text-center">{successMessage}</p>
           
         )}
-        <p className="text-red-400 text-center">{error && "Something went wrong."}</p>
+        {error && (
+        <p className="text-red-400 text-center">{error}</p>)
+}
       </form>
     </div>
   );
