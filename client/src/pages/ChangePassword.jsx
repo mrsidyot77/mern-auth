@@ -29,6 +29,8 @@ function ChangePassword() {
           body: JSON.stringify({ oldPassword, newPassword, conPassword }),
         }
       );
+   
+   
       if (!res.ok) {
         setLoading(false)
         setError(true)
@@ -36,7 +38,7 @@ function ChangePassword() {
       }
       setLoading(false)
       setError(false)
-      setSuccessMessage("Password has been changed successfuully.")
+      setSuccessMessage("Password has been changed successfully.")
     } catch (error) {
         setLoading(false)
         setError(true)
@@ -72,7 +74,7 @@ function ChangePassword() {
           onChange={(e)=>setConPassword(e.target.value)}
         />
         <button disabled={loading} className="bg-slate-700  uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60">
-        {loading ? "Loading..." : "update password"}
+        {loading ? "Loading..." : "change password"}
         </button>
         {successMessage && (
           <p className="text-green-500 text-center">{successMessage}</p>

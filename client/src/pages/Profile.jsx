@@ -171,6 +171,7 @@ function Profile() {
         {succDataMsg && (
           <p className="text-green-500 text-center">{succDataMsg}</p>
         )}
+        
       </form>
 
       <div className="flex justify-between  m-4">

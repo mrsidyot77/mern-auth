@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../redux/userSlice";
 
 function Header() {
-  
+
   const {currentUser} = useSelector((state) => state.user)
   const dispatch = useDispatch(); // Get the dispatch function from Redux
   const navigate = useNavigate();
@@ -42,6 +42,7 @@ function Header() {
         >
           SignOut
         </li>
+
           <Link to="/profile">
             {" "}
             
@@ -49,9 +50,12 @@ function Header() {
               <img className="w-8 h-8 object-cover rounded-full "  src={currentUser.data.user.avatar}/>
               </Link>
         </>
-              ):(
+              ):
+              (
                 <Link to="/sign-in" >
-                <li className="font-bold mt-1 text-gray-500">Sign In </li></Link>)}
+                <li className="font-bold mt-1 text-gray-500">Sign In </li></Link>
+              )
+              }
            
             
           
