@@ -34,7 +34,7 @@ function ChangePassword() {
           body: JSON.stringify({ oldPassword, newPassword, conPassword }),
         }
       );
-      console.log(res);
+     
       
    
       if (!res.ok) {
@@ -67,7 +67,7 @@ function ChangePassword() {
         <input
           type="password"
           placeholder="Old Password"
-          className="bg-slate-300 rounded-lg p-2"
+          className="bg-slate-300 rounded-lg p-2 placeholder-gray-500"
           id="oldpassword"
           onChange={(e)=>setOldPassword(e.target.value)}
           onFocus={clearMessages}
@@ -76,7 +76,7 @@ function ChangePassword() {
         <input
           type="password"
           placeholder="New Password"
-          className="bg-slate-300 rounded-lg p-2"
+          className="bg-slate-300 rounded-lg p-2 placeholder-gray-500"
           id="newpassword"
           onChange={(e)=>setNewPassword(e.target.value)}
           onFocus={clearMessages}
@@ -84,7 +84,7 @@ function ChangePassword() {
         <input
           type="password"
           placeholder="Confirm Password"
-          className="bg-slate-300 rounded-lg p-2"
+          className="bg-slate-300 rounded-lg p-2 placeholder-gray-500"
           id="cpassword"
           onChange={(e)=>setConPassword(e.target.value)}
           onFocus={clearMessages}

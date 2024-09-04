@@ -71,14 +71,14 @@ function SignIn() {
           type="text"
           id="email"
           placeholder="Email"
-          className="rounded-xl p-3 bg-slate-200"
+          className="rounded-xl p-3 bg-slate-200 placeholder-gray-500"
           onChange={handleChange}
         />
         <input
           type="password"
           id="password"
           placeholder="Password"
-          className="rounded-xl p-3 bg-slate-200"
+          className="rounded-xl p-3 bg-slate-200 placeholder-gray-500"
           onChange={handleChange}
         />
         <button disabled={loading} className="rounded-lg bg-slate-700 py-3 uppercase hover:opacity-90 text-white disabled:opacity-90">

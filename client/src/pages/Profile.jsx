@@ -37,7 +37,6 @@ function Profile() {
     setSuccDataMsg("");
   };
 
-
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -97,14 +96,6 @@ function Profile() {
     }
   };
 
-  const handleSignOut = async () => {
-    try {
-      await fetch("http://localhost:5000/api/v1/users/logout");
-      dispatch(signOut());
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <div className="mx-auto max-w-lg p-3">
       <h1 className="text-center font-semibold text-3xl my-7">Profile</h1>
@@ -149,8 +140,10 @@ function Profile() {
           id="username"
           onChange={(e) => setUsername(e.target.value)}
           onFocus={clearMessages}
+          disabled
         />
         <input
+        disabled
           type="email"
           placeholder="Email"
           defaultValue={currentUser.data.user.email}
@@ -171,23 +164,17 @@ function Profile() {
         {succDataMsg && (
           <p className="text-green-500 text-center">{succDataMsg}</p>
         )}
-        
+        <button type="button" className="bg-slate-700 uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60">
+          <Link to="/change-password"> Change Password</Link>
+        </button>
       </form>
 
       <div className="flex justify-between  m-4">
-        <span className="text-red-400  cursor-pointer bg-slate-700 p-2 rounded-lg ">
+        {/* <span className="text-red-400  cursor-pointer bg-slate-700 p-2 rounded-lg ">
           Delete Account
-        </span>
-        <span
-          onClick={handleSignOut}
-          className="text-red-400  cursor-pointer bg-slate-700 p-2 rounded-lg"
-        >
-          Sign Out
-        </span>
+        </span> */}
 
-        <span className="text-red-400  cursor-pointer bg-slate-700 p-2  rounded-lg ">
-          <Link to="/change-password"> Change Password</Link>
-        </span>
+        
       </div>
     </div>
   );
