@@ -1,16 +1,20 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "../redux/userSlice";
 
 function Home() {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
-  const handleLogout = () => {
-    // Implement logout functionality here
-    // For example, you might clear tokens and navigate to the login page
-    // navigate("/login");
-    // dispatch(logoutUser());
+  const handleSignOut = async () => {
+    try {
+      await fetch("http://localhost:5000/api/v1/users/logout");
+      dispatch(signOut());
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -27,10 +31,10 @@ function Home() {
             className="w-24 h-24 rounded-full mx-auto mb-4"
           />
           <button
-            onClick={handleLogout}
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+            onClick={handleSignOut}
+            className="bg-slate-700 uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60"
           >
-            Logout
+            Signout
           </button>
         </div>
       ) : (
@@ -38,15 +42,15 @@ function Home() {
           <h2 className="text-2xl font-semibold mb-4">You are not logged in.</h2>
           <Link
             to="/sign-in"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 mr-4"
+            className="mx-2 bg-slate-700 uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60"
           >
-            Login
+            sign in
           </Link>
           <Link
             to="/sign-up"
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
+           className="bg-slate-700 uppercase rounded-lg text-white p-2 hover:opacity-80 disabled:opacity-60"
           >
-            Register
+            signup
           </Link>
         </div>
       )}
