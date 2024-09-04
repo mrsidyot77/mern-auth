@@ -1,4 +1,4 @@
-import { Link,useNavigate } from "react-router-dom";
+import { NavLink,Link,useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../redux/userSlice";
@@ -26,39 +26,56 @@ function Header() {
           <h1 className="font-bold text-gray-500  text-3xl">MERN-AuthSys</h1>{" "}
         </Link>
         <ul className="flex gap-4">
-          <Link to="/">
-            {" "}
-            <li className="font-bold mt-1 text-gray-500" >Home</li>{" "}
-          </Link>
-          <Link to="/about">
-            {" "}
-            <li className="font-bold mt-1 text-gray-500">About</li>{" "}
-          </Link>
-          {currentUser ? (
-          <>
-              <li
-          onClick={handleSignOut}
-          className="font-bold mt-1 text-gray-500 cursor-pointer"
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `font-bold mt-1 ${isActive ? 'text-sky-300 underline' : 'text-gray-500'}
+          hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-sky-300 lg:p-0`
+          }
         >
-          SignOut
-        </li>
-
-          <Link to="/profile">
-            {" "}
-            
-              
-              <img className="w-8 h-8 object-cover rounded-full "  src={currentUser.data.user.avatar}/>
-              </Link>
-        </>
-              ):
-              (
-                <Link to="/sign-in" >
-                <li className="font-bold mt-1 text-gray-500">Sign In </li></Link>
-              )
-              }
+          Home
+        </NavLink>
+        <NavLink
+          to="/about"
+          className={({ isActive }) =>
+            `font-bold mt-1 ${isActive ? 'text-sky-300 underline' : 'text-gray-500'}
+          hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-sky-300 lg:p-0`
+          }
+        >
+          About
+        </NavLink>
+        {currentUser ? (
+          <>
+            <NavLink
+          to="/"
+          onClick={handleSignOut}
+          className={({ isActive }) =>
+            `font-bold mt-1 ${isActive ? 'text-sky-300 underline' : 'text-gray-500'}
+          hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-sky-300 lg:p-0`
+          }
+        >
+              Sign Out
            
-            
-          
+           </NavLink>
+            <NavLink to="/profile">
+              <img
+                className="w-8 h-8 object-cover rounded-full"
+                src={currentUser.data.user.avatar}
+                alt="User Avatar"
+              />
+            </NavLink>
+          </>
+        ) : (
+          <NavLink
+            to="/sign-in"
+            className={({ isActive }) =>
+              `font-bold mt-1 ${isActive ? 'text-sky-300 underline ' : 'text-gray-500'}
+            hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-sky-300 lg:p-0`
+            }
+          >
+            Sign In
+          </NavLink>
+        )}
          
         </ul>
       </div>
