@@ -46,24 +46,24 @@ function Header() {
         </NavLink>
         {currentUser ? (
           <>
-            <NavLink
+            <Link
           to="/"
           onClick={handleSignOut}
-          className={({ isActive }) =>
-            `font-bold mt-1 ${isActive ? 'text-sky-300 underline' : 'text-gray-500'}
-          hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-sky-300 lg:p-0`
+          className={
+            `font-bold mt-1   text-gray-500
+          hover:bg-gray-50 lg:hover:bg-transparent  lg:border-0 hover:text-sky-300 lg:p-0`
           }
         >
               Sign Out
            
-           </NavLink>
-            <NavLink to="/profile">
+           </Link>
+            <Link to="/profile">
               <img
                 className="w-8 h-8 object-cover rounded-full"
                 src={currentUser.data.user.avatar}
                 alt="User Avatar"
               />
-            </NavLink>
+            </Link>
           </>
         ) : (
           <NavLink
