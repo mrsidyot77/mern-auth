@@ -31,6 +31,7 @@ function SignUp() {
     e.preventDefault()
     try {
       setLoading(true)
+      dataReg(false)
       setError(false)
       const res = await fetch("http://localhost:5000/api/v1/users/register",{
         method: "POST",
@@ -56,6 +57,12 @@ function SignUp() {
    
     
   }
+
+  const clearStates = ()=>{
+    setError(false)
+    setDatareg(false)
+    
+  }
   
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -67,6 +74,7 @@ function SignUp() {
           placeholder="Full Name"
           className="rounded-xl p-3 bg-slate-200 placeholder-gray-500"
           onChange={handleChange}
+          onFocus={clearStates}
         />
         <input
           type="text"
@@ -74,6 +82,7 @@ function SignUp() {
           placeholder="Username"
           className="rounded-xl p-3 bg-slate-200 placeholder-gray-500"
           onChange={handleChange}
+          onFocus={clearStates}
         />
         <input
           type="email"
@@ -81,6 +90,7 @@ function SignUp() {
           placeholder="Email"
           className="rounded-xl p-3 bg-slate-200 placeholder-gray-500"
           onChange={handleChange}
+          onFocus={clearStates}
         />
         <input
           type="password"
@@ -88,6 +98,7 @@ function SignUp() {
           placeholder="Password"
           className="rounded-xl p-3 bg-slate-200 placeholder-gray-500"
           onChange={handleChange}
+          onFocus={clearStates}
         />
         <button disabled={loading} className="rounded-lg  bg-slate-600  py-3 uppercase hover:opacity-60 text-white disabled:opacity-60">
          {loading ? "Loading..." : "Sign Up" }
