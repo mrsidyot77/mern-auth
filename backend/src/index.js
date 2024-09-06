@@ -2,6 +2,7 @@
 import conectDB from "./db/index.js"
 import app from "./app.js";
 import dotenv from "dotenv"
+import path from "path"
 
 dotenv.config({ path: "./.env" });
 
