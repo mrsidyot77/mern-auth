@@ -2,8 +2,16 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors"
 import errorHandler from "./middlewares/errorHandler.middleware.js";
+import path from "path"
 
+const __dirName = path.resolve()
 const app = express()
+
+app.use(express.static(path.join(__dirName,"../client/dist")))
+
+app.length("*",(req,res)=>{
+    res.sendFile(path.join(__dirName,"client","dist","index.html"))
+})
 
 app.use(cors({
     // Specify which domains are allowed to make requests to this server.
