@@ -6,9 +6,9 @@ import OAuth from "./OAuth";
 function SignUp() {
   
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(false)
+  const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const [dataReg, setDatareg] = useState(false)
+  const [dataReg, setDatareg] = useState("")
 
   const navigate = useNavigate()
 
@@ -31,8 +31,7 @@ function SignUp() {
     e.preventDefault()
     try {
       setLoading(true)
-      dataReg(false)
-      setError(false)
+      setError("")
       const res = await fetch("http://localhost:5000/api/v1/users/register",{
         method: "POST",
         headers: {
@@ -41,26 +40,22 @@ function SignUp() {
         body: JSON.stringify(formData)
       })
       const data = await res.json()
-      setDatareg(true)
       console.log(data);
+      setDatareg(data.message)
 
       setLoading(false)
       if (data.success == false) {
-        setError(true)
+        setError(data.message)
+        dataReg("")
         return
       }
-      navigate("/sign-in")
+      
     } catch (error) {
+      setError(data.message)
+      dataReg("")
       setLoading(false)
-      setError(true)
     }
    
-    
-  }
-
-  const clearStates = ()=>{
-    setError(false)
-    setDatareg(false)
     
   }
   
@@ -74,7 +69,6 @@ function SignUp() {
           placeholder="Full Name"
           className="rounded-xl p-3 bg-slate-200 placeholder-gray-500"
           onChange={handleChange}
-          onFocus={clearStates}
         />
         <input
           type="text"
@@ -82,7 +76,6 @@ function SignUp() {
           placeholder="Username"
           className="rounded-xl p-3 bg-slate-200 placeholder-gray-500"
           onChange={handleChange}
-          onFocus={clearStates}
         />
         <input
           type="email"
@@ -90,7 +83,6 @@ function SignUp() {
           placeholder="Email"
           className="rounded-xl p-3 bg-slate-200 placeholder-gray-500"
           onChange={handleChange}
-          onFocus={clearStates}
         />
         <input
           type="password"
@@ -98,7 +90,6 @@ function SignUp() {
           placeholder="Password"
           className="rounded-xl p-3 bg-slate-200 placeholder-gray-500"
           onChange={handleChange}
-          onFocus={clearStates}
         />
         <button disabled={loading} className="rounded-lg  bg-slate-600  py-3 uppercase hover:opacity-60 text-white disabled:opacity-60">
          {loading ? "Loading..." : "Sign Up" }
@@ -111,7 +102,7 @@ function SignUp() {
           <span className="text-blue-300">Sign In</span>
         </Link>
       </div>
-      <p className="text-green-400">{dataReg && "You are registered successfully, Now you can Sign in."}</p>
+      <p className="text-green-400">{dataReg ? dataReg : "You are registered successfully, Now you can Sign in."}</p>
         <p className="text-red-400">{error && "Something went wrong."}</p>
      
     </div>
