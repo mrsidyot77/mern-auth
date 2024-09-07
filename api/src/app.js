@@ -7,7 +7,7 @@ import path from "path"
 const __dirName = path.resolve()
 const app = express()
 
-app.use(express.static(path.join(__dirName,"../client/dist")))
+app.use(express.static(path.join(__dirName, "../client/dist")));
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirName, "../client/dist/index.html"));
