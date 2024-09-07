@@ -10,8 +10,10 @@ const app = express()
 app.use(express.static(path.join(__dirName,"../client/dist")))
 
 app.get("*",(req,res)=>{
-    res.sendFile(path.join(__dirName,"client","dist","src","index.html"))
+    res.sendFile(path.join(__dirName,"client","dist","index.html"))
 })
+
+
 
 app.use(cors({
     // Specify which domains are allowed to make requests to this server.
