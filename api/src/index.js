@@ -4,7 +4,12 @@ import app from "./app.js";
 import dotenv from "dotenv"
 import path from "path"
 
-dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+try {
+    dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+    console.log('Environment variables loaded.');
+} catch (error) {
+    console.error('Failed to load .env file:', error);
+}
 
 
 conectDB()
