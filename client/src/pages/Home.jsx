@@ -10,7 +10,7 @@ function Home() {
 
   const handleSignOut = async () => {
     try {
-      await fetch("http://localhost:5000/api/v1/users/logout");
+      await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`);
       dispatch(signOut());
     } catch (error) {
       console.log(error);

@@ -47,7 +47,7 @@ function Profile() {
       try {
         dispatch(updateAvatarStart());
         const res = await axios.patch(
-          "http://localhost:5000/api/v1/users/update-avatar",
+          `${import.meta.env.VITE_API_URL}/api/v1/users/update-avatar`,
           formData,
           {
             headers: {
@@ -71,7 +71,7 @@ function Profile() {
     dispatch(updateAccountStart());
     try {
       const res = await fetch(
-        "http://localhost:5000/api/v1/users/update-account-details",
+        `${import.meta.env.VITE_API_URL}/api/v1/users/update-account-details`,
         {
           method: "POST",
           headers: {
