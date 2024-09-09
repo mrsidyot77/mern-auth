@@ -5,11 +5,12 @@ import react from '@vitejs/plugin-react-swc';
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'dist', // Output directory for the build
+    outDir: 'dist',
     rollupOptions: {
       input: {
-        main: 'src/main.jsx', // Entry point of your application
-      },
+        main: 'src/main.jsx'
+      }
     },
-  },
+    emptyOutDir: false  // Ensure Vite does not delete files in the `dist` directory
+  }
 });
