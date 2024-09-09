@@ -11,6 +11,18 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 
+// Set up CORS (must be before any routes or static file serving)
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,  // Ensure this is set correctly in your environment
+    credentials: true
+}));
+
+// Express configuration
+app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+app.use(express.static("public"));
+app.use(cookieParser());
+
 // Serve static files from the client/dist directory
 app.use(express.static(path.join(__dirname, "../../client/dist")));
 
@@ -33,24 +45,13 @@ app.get("*", (req, res) => {
 // Log the resolved path for debugging
 console.log("Resolved path:", path.join(__dirname, "../../client/dist", "index.html"));
 
-app.use(cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true
-}));
-
-// Express configuration
-app.use(express.json({ limit: "16kb" }));
-app.use(express.urlencoded({ extended: true, limit: "16kb" }));
-app.use(express.static("public"));
-app.use(cookieParser());
-
-// Routes import
+// Import routes
 import userRouter from "./routes/user.routes.js";
 
-// Route declaration
+// Set up API routes
 app.use("/api/v1/users", userRouter);
 
-// Error handler middleware
+// Error handling middleware
 app.use(errorHandler);
 
 export default app;
